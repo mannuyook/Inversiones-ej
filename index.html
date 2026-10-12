@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inversiones EJ - Ropa de Caballero | Envíos a Venezuela</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..900;1,300..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkgray: {
+                            900: '#121417',
+                            950: '#0b0d0f',
+                            800: '#1a1d23',
+                            700: '#262a33'
+                        },
+                        gold: {
+                            300: '#f3e5ab',
+                            400: '#e5c567',
+                            500: '#d4af37',
+                            600: '#aa8c2c'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0d0f;
+            color: #e2e8f0;
+        }
+        .font-brand {
+            font-family: 'Montserrat', sans-serif;
+        }
+        /* Animación inicial única al cargar la página */
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-entry {
+            animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Carrusel Automático de Videos (Movimiento ultra suave y pausado) */
+        @keyframes videoTicker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .video-ticker-track {
+            display: flex;
+            width: 200%;
+            /* Tiempo extendido a 50s para un movimiento suave y libre de mareo */
+            animation: videoTicker 50s linear infinite;
+        }
+        .video-ticker-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* Utilidades de zoom para imágenes de productos */
+        .zoom-container {
+            overflow: hidden;
+            position: relative;
+        }
+        .zoom-img {
+            transition: transform 1s ease;
+        }
+        .zoom-container:hover .zoom-img {
+            transform: scale(1.12);
+        }
+    </style>
+</head>
+<body class="bg-darkgray-950 text-slate-200 antialiased selection:bg-gold-500 selection:text-darkgray-950">
+
+    <!-- Header con Logo Dorado y Barra Superior -->
+    <header class="w-full sticky top-0 z-40 bg-darkgray-900 shadow-lg border-b border-darkgray-700">
+        <div class="bg-darkgray-950 text-gold-300 text-xs md:text-sm py-2.5 overflow-hidden border-b border-darkgray-800">
+            <div class="flex items-center space-x-12 px-4 whitespace-nowrap justify-around animate-pulse">
+                <span><i class="fa-solid fa-crown text-gold-400 mr-2"></i> COLECCIÓN DE CABALLERO 2026 - INVERSIONES EJ</span>
+                <span><i class="fa-solid fa-plane-departure text-gold-400 mr-2"></i> ENVÍOS RÁPIDOS Y SEGUROS A VENEZUELA</span>
+                <span><i class="fa-solid fa-shield-halved text-gold-400 mr-2"></i> CALIDAD Y ELEGANCIA PREMIUM</span>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <button id="mobile-menu-btn" class="lg:hidden text-2xl text-gold-400 focus:outline-none p-1">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Logo Integrado -->
+            <div class="flex-1 lg:flex-none text-center lg:text-left flex items-center gap-3">
+                <a href="#" class="flex items-center gap-3 group">
+                    <img src="/logo/logo.jpg" alt="Inversiones EJ Logo" class="w-20 h-20 object-cover rounded-full border-2 border-gold-500 shadow-md">
+                    <div>
+                        <span class="font-brand font-black text-xl md:text-2xl tracking-tight text-white uppercase group-hover:text-gold-400 transition-colors">
+                            Inversiones <span class="text-gold-500">EJ</span>
+                        </span>
+                        <span class="block text-[10px] font-bold tracking-widest text-gold-400 uppercase -mt-1">
+                            Ropa de Caballero
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-8 text-xs font-bold tracking-wider uppercase text-slate-300">
+                <a href="#catalogo" onclick="filterCategory('todos')" class="hover:text-gold-400 transition-colors">Todos</a>
+                <a href="#catalogo" onclick="filterCategory('camisas')" class="hover:text-gold-400 transition-colors">Camisas</a>
+                <a href="#catalogo" onclick="filterCategory('gorras')" class="hover:text-gold-400 transition-colors">Gorras</a>
+                <a href="#catalogo" onclick="filterCategory('pantalones')" class="hover:text-gold-400 transition-colors">Pantalones</a>
+                <a href="#catalogo" onclick="filterCategory('shorts')" class="hover:text-gold-400 transition-colors">Shorts</a>
+            </nav>
+
+            <div class="flex items-center space-x-5 text-lg text-white">
+                <button id="cart-toggle-btn" class="hover:text-gold-400 transition-colors relative p-2">
+                    <i class="fa-solid fa-bag-shopping text-xl text-gold-400"></i>
+                    <span id="cart-counter" class="absolute top-0 right-0 bg-gold-500 text-darkgray-950 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow">0</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden px-4 pt-2 pb-4 space-y-2 bg-darkgray-950 text-white border-b border-darkgray-800">
+            <a href="#catalogo" onclick="filterCategory('todos'); toggleMobileMenu()" class="block py-2 text-sm font-bold uppercase tracking-wider text-gold-400">Ver Todos</a>
+            <a href="#catalogo" onclick="filterCategory('camisas'); toggleMobileMenu()" class="block py-2 text-sm font-medium uppercase tracking-wider text-slate-300 hover:text-gold-400">Camisas</a>
+            <a href="#catalogo" onclick="filterCategory('gorras'); toggleMobileMenu()" class="block py-2 text-sm font-medium uppercase tracking-wider text-slate-300 hover:text-gold-400">Gorras</a>
+            <a href="#catalogo" onclick="filterCategory('pantalones'); toggleMobileMenu()" class="block py-2 text-sm font-medium uppercase tracking-wider text-slate-300 hover:text-gold-400">Pantalones</a>
+            <a href="#catalogo" onclick="filterCategory('shorts'); toggleMobileMenu()" class="block py-2 text-sm font-medium uppercase tracking-wider text-slate-300 hover:text-gold-400">Shorts</a>
+        </div>
+    </header>
+
+<!-- Banner Principal con 3 Videos -->
+<section class="relative bg-darkgray-900 text-white overflow-hidden min-h-[500px] flex items-center justify-center border-b border-darkgray-800 py-8">
+    <div class="container mx-auto px-4 flex items-center justify-center gap-6 max-w-6xl">
+        
+        <!-- Video Izquierdo -->
+        <div class="w-1/4 h-[450px] rounded-xl overflow-hidden shadow-2xl cursor-pointer transition-transform hover:scale-105" onclick="openVideo('/video/video izquierda.mp4')">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover pointer-events-none">
+                <source src="/video/video izquierda.mp4" type="video/mp4">
+                Tu navegador no soporta la etiqueta de video. 
+            </video>
+        </div>
+
+        <!-- Video Central (Más destacado) -->
+        <div class="w-1/3 h-[500px] rounded-xl overflow-hidden shadow-2xl z-10 cursor-pointer transition-transform hover:scale-105" onclick="openVideo('/video/video pagina portada.mp4')">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover pointer-events-none">
+                <source src="/video/video pagina portada.mp4" type="video/mp4">
+                Tu navegador no soporta la etiqueta de video. 
+            </video>
+        </div>
+
+        <!-- Video Derecho -->
+        <div class="w-1/4 h-[450px] rounded-xl overflow-hidden shadow-2xl cursor-pointer transition-transform hover:scale-105" onclick="openVideo('/video/video derecha.mp4')">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover pointer-events-none">
+                <source src="/video/video derecha.mp4" type="video/mp4">
+                Tu navegador no soporta la etiqueta de video. 
+            </video>
+        </div>
+
+    </div>
+</section>
+
+<!-- Ventana Modal (Pantalla Completa para Reproducir el Video) -->
+<div id="videoModal" class="fixed inset-0 z-50 bg-black/9oid flex items-center justify-center hidden bg-black bg-opacity-90">
+    <!-- Botón de Cerrar (X) -->
+    <button onclick="closeVideo()" class="absolute top-6 right-6 text-white text-3xl font-bold bg-neutral-800 hover:bg-neutral-700 w-12 h-12 rounded-full flex items-center justify-center transition-colors z-50 cursor-pointer shadow-lg">
+        &times;
+    </button>
+
+    <!-- Contenedor del video en grande -->
+    <div class="relative w-11/12 max-w-4xl h-[80vh] flex items-center justify-center">
+        <video id="modalVideo" controls class="max-w-full max-h-full rounded-xl shadow-2xl object-contain">
+            Tu navegador no soporta la etiqueta de video.
+        </video>
+    </div>
+</div>
+
+<!-- Script para controlar la apertura y cierre del Modal -->
+<script>
+    function openVideo(videoSrc) {
+        const modal = document.getElementById('videoModal');
+        const modalVideo = document.getElementById('modalVideo');
+        
+        modalVideo.src = videoSrc; // Carga el video correspondiente
+        modal.classList.remove('hidden'); // Muestra la ventana modal
+        modalVideo.play(); // Inicia la reproducción automática del video grande
+    }
+
+    function closeVideo() {
+        const modal = document.getElementById('videoModal');
+        const modalVideo = document.getElementById('modalVideo');
+        
+        modalVideo.pause(); // Pausa el video
+        modalVideo.src = ""; // Limpia la fuente para detener consumos
+        modal.classList.add('hidden'); // Oculta la ventana modal y regresa al dashboard
+    }
+</script>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full animate-entry">
+            <div class="max-w-2xl">
+                <span class="inline-block bg-gold-500/15 text-gold-300 border border-gold-500/30 text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-md mb-4 shadow-sm">
+                    Colección Exclusiva 2026
+                </span>
+                <h1 class="font-brand text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-none mb-4 uppercase">
+                    Inversiones <span class="text-gold-500">EJ</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-slate-300 font-light mb-8 max-w-lg leading-relaxed">
+                    Elegancia, distinción y estilo moderno en moda masculina. Despachos seguros y directos a toda Venezuela.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#catalogo" class="bg-gold-500 hover:bg-gold-400 text-darkgray-950 font-extrabold px-8 py-4 rounded-xl uppercase tracking-wider text-sm transition-all shadow-lg shadow-gold-500/20">
+                        Ver Catálogo
+                    </a>
+                    <a href="https://wa.me/584243699953?text=Hola%20Inversiones%20EJ,%20quiero%20informaci%C3%B3n%20sobre%20env%C3%ADos%20a%20Venezuela" target="_blank" class="bg-darkgray-800 hover:bg-darkgray-700 text-gold-300 border border-gold-500/30 font-bold px-6 py-4 rounded-xl uppercase tracking-wider text-sm transition-all flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i> Soporte WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panel Interactivo de Videos (Marcados con # para fácil edición) -->
+    <section class="py-12 bg-darkgray-900 border-b border-darkgray-800 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 mb-6 flex justify-between items-center">
+            <div>
+        </div>
+
+        <div class="relative w-full overflow-hidden py-2">
+
+    <!-- Modal de Video Compacto (No ocupa toda la pantalla) -->
+    <div id="video-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-darkgray-900 border border-gold-500/40 w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden relative">
+            <div class="flex items-center justify-between p-4 border-b border-darkgray-800 bg-darkgray-950">
+                <h4 id="video-modal-title" class="font-brand font-bold text-sm text-gold-400 uppercase tracking-wider">Reproduciendo Video</h4>
+                <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white text-lg w-8 h-8 rounded-full bg-darkgray-800 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-4 bg-black aspect-video flex items-center justify-center">
+                <video id="modal-video-player" src="" controls autoplay class="w-full h-full object-contain rounded-lg"></video>
+            </div>
+            <div class="p-3 bg-darkgray-950 text-center text-xs text-slate-400">
+                Haz clic en la "X" o fuera del recuadro para cerrar y seguir explorando.
+            </div>
+        </div>
+    </div>
+
+    <!-- Catálogo de Productos -->
+    <section id="catalogo" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-6 border-b border-darkgray-800">
+            <div>
+                <span class="text-xs font-bold text-gold-400 uppercase tracking-widest block mb-1">Catálogo Exclusivo</span>
+                <h2 class="font-brand text-3xl md:text-4xl font-extrabold text-white tracking-tight uppercase">Inversiones EJ</h2>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                <button onclick="filterCategory('todos')" class="cat-btn active-cat bg-gold-500 text-darkgray-950 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all shadow-sm" data-cat="todos">Todas</button>
+                <button onclick="filterCategory('camisas')" class="cat-btn bg-darkgray-900 border border-darkgray-700 text-slate-300 hover:bg-darkgray-800 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all" data-cat="camisas">Camisas</button>
+                <button onclick="filterCategory('gorras')" class="cat-btn bg-darkgray-900 border border-darkgray-700 text-slate-300 hover:bg-darkgray-800 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all" data-cat="gorras">Gorras</button>
+                <button onclick="filterCategory('pantalones')" class="cat-btn bg-darkgray-900 border border-darkgray-700 text-slate-300 hover:bg-darkgray-800 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all" data-cat="pantalones">Pantalones</button>
+                <button onclick="filterCategory('shorts')" class="cat-btn bg-darkgray-900 border border-darkgray-700 text-slate-300 hover:bg-darkgray-800 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all" data-cat="shorts">Shorts</button>
+            </div>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Productos cargados dinámicamente -->
+        </div>
+    </section>
+
+    <!-- Modal de Detalle de Producto -->
+    <div id="product-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-darkgray-900 border border-darkgray-700 w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden relative my-8">
+            <button id="close-modal" class="absolute top-4 right-4 z-20 text-slate-400 hover:text-white text-xl w-10 h-10 rounded-full bg-darkgray-800 flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 p-6 md:p-8 gap-8">
+                <div>
+                    <div id="modal-zoom-box" class="zoom-container bg-darkgray-950 rounded-xl overflow-hidden aspect-[4/5] cursor-crosshair border border-darkgray-800 relative">
+                        <img id="modal-img" src="" alt="Producto Inversiones EJ" class="w-full h-full object-cover transition-transform duration-200 origin-center">
+                        <span class="absolute bottom-3 left-3 bg-darkgray-950/90 text-gold-300 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md border border-darkgray-700">
+                            <i class="fa-solid fa-magnifying-glass-plus mr-1 text-gold-400"></i> Zoom al mover cursor
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <span id="modal-category" class="text-xs font-bold uppercase text-gold-400 tracking-wider">Categoría</span>
+                        <h2 id="modal-title" class="font-brand text-2xl md:text-3xl font-extrabold text-white uppercase my-1">Nombre del Producto</h2>
+                        <p id="modal-price" class="text-2xl font-black text-gold-400 mb-4">$0,00 USD</p>
+                        
+                        <p id="modal-desc" class="text-xs text-slate-400 leading-relaxed mb-6">
+                            Prenda confeccionada con estándares de alta calidad, perfecta para el uso diario o eventos casuales. Ideal para despacho directo a Venezuela.
+                        </p>
+
+                        <div class="mb-6">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                                Talla Seleccionada: <span id="selected-size-display" class="text-gold-400 font-extrabold">M</span>
+                            </label>
+                            <div class="flex space-x-2" id="size-buttons">
+                                <button onclick="selectSize(this, 'S')" class="size-btn px-4 py-2 rounded-lg border border-darkgray-700 hover:border-gold-500 font-bold text-xs uppercase text-slate-300 transition-all">S</button>
+                                <button onclick="selectSize(this, 'M')" class="size-btn active-size px-4 py-2 rounded-lg border-2 border-gold-500 bg-gold-500/10 font-bold text-xs uppercase text-gold-400 transition-all">M</button>
+                                <button onclick="selectSize(this, 'L')" class="size-btn px-4 py-2 rounded-lg border border-darkgray-700 hover:border-gold-500 font-bold text-xs uppercase text-slate-300 transition-all">L</button>
+                                <button onclick="selectSize(this, 'XL')" class="size-btn px-4 py-2 rounded-lg border border-darkgray-700 hover:border-gold-500 font-bold text-xs uppercase text-slate-300 transition-all">XL</button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4 mb-6">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Cantidad:</span>
+                            <div class="flex items-center border border-darkgray-700 rounded-lg bg-darkgray-950">
+                                <button onclick="updateQty(-1)" class="px-3 py-1.5 text-slate-300 hover:bg-darkgray-800 font-bold">-</button>
+                                <span id="modal-qty" class="px-4 text-sm font-bold text-white">1</span>
+                                <button onclick="updateQty(1)" class="px-3 py-1.5 text-slate-300 hover:bg-darkgray-800 font-bold">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-4 border-t border-darkgray-800">
+                        <button id="add-to-cart-modal-btn" class="w-full bg-gold-500 hover:bg-gold-400 text-darkgray-950 text-xs font-extrabold uppercase py-4 rounded-xl tracking-wider transition-all shadow-md">
+                            <i class="fa-solid fa-cart-plus mr-2"></i> Añadir al Carrito
+                        </button>
+                        <a id="modal-wa-btn" href="#" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold uppercase py-4 rounded-xl tracking-wider transition-all flex items-center justify-center gap-2 shadow-md">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> Consultar Envío a Venezuela
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrito Lateral (Drawer) -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex justify-end">
+        <div class="bg-darkgray-900 w-full max-w-md h-full flex flex-col justify-between shadow-2xl border-l border-darkgray-800">
+            <div class="p-5 border-b border-darkgray-800 flex items-center justify-between bg-darkgray-950 text-white">
+                <h3 class="font-brand font-bold text-lg uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping text-gold-400"></i> Tu Carrito
+                </h3>
+                <button id="close-cart-btn" class="text-slate-400 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="cart-items-container" class="p-5 overflow-y-auto flex-1 space-y-4">
+                <p class="text-center text-slate-500 text-sm py-12">Tu carrito está vacío actualmente.</p>
+            </div>
+
+            <div class="p-5 border-t border-darkgray-800 bg-darkgray-950 space-y-4">
+                <div class="flex justify-between items-center text-base font-extrabold text-white">
+                    <span>Total Estimado:</span>
+                    <span id="cart-total-price" class="text-gold-400">$0,00 USD</span>
+                </div>
+                <a id="checkout-wa-btn" href="#" target="_blank" class="block text-center w-full bg-gold-500 hover:bg-gold-400 text-darkgray-950 text-xs font-black uppercase py-4 rounded-xl tracking-wider transition-all shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-base mr-2"></i> Pedir por WhatsApp para Venezuela
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón Flotante de WhatsApp -->
+    <a href="https://wa.me/584243699953?text=Hola%20Inversiones%20EJ,%20quisiera%20consultar%20sobre%20sus%20productos%20y%20m%C3%A9todos%20de%20env%C3%ADo%20a%20Venezuela." target="_blank" class="fixed bottom-6 right-6 z-40 bg-[#25D366] hover:bg-[#20ba5a] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl text-2xl transition-all transform hover:scale-110 border-2 border-white">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-darkgray-950 text-slate-400 text-xs py-12 border-t border-darkgray-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <span class="font-brand font-black text-2xl text-white uppercase block mb-2">
+                    Inversiones <span class="text-gold-500">EJ</span>
+                </span>
+                <p class="text-slate-400 leading-relaxed mb-4">
+                    Especialistas en ropa masculina de alta calidad. Gestionamos tus compras con despachos garantizados a toda Venezuela.
+                </p>
+                <span class="text-gold-400 font-semibold"><i class="fa-solid fa-truck-ramp-box mr-1"></i> Colección de Caballero 2026</span>
+            </div>
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-4 text-sm">Categorías de Caballero</h4>
+                <ul class="space-y-2">
+                    <li><a href="#catalogo" onclick="filterCategory('camisas')" class="hover:text-gold-400 transition-colors">Camisas Elegantes y Casuales</a></li>
+                    <li><a href="#catalogo" onclick="filterCategory('gorras')" class="hover:text-gold-400 transition-colors">Gorras Exclusivas</a></li>
+                    <li><a href="#catalogo" onclick="filterCategory('pantalones')" class="hover:text-gold-400 transition-colors">Pantalones & Jeans</a></li>
+                    <li><a href="#catalogo" onclick="filterCategory('shorts')" class="hover:text-gold-400 transition-colors">Shorts y Pantalonetas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-4 text-sm">Contacto Directo</h4>
+                <ul class="space-y-2">
+                    <li><i class="fa-solid fa-location-dot text-gold-400 mr-2"></i> Envíos a Caracas, Valencia, Maracaibo, Barquisimeto y más.</li>
+                    <li><i class="fa-solid fa-clock text-gold-400 mr-2"></i> Lunes a Sábado: 8:00 AM - 7:00 PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 pt-6 border-t border-darkgray-900 text-center text-slate-500">
+            &copy; 2026 Inversiones EJ Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- JavaScript interactivo -->
+    <script>
+        const products = [
+            { id: 1, title: "Camisa-1", category: "camisas", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/XZFqZYkP/camisa-1.jpg", desc: "Camisa de lino ligera en tono fresco, ideal para climas cálidos y ocasiones casuales o semi-formales." },
+            { id: 2, title: "Camisa-2", category: "camisas", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/k2zk3Xft/camisa-2.jpg", desc: "Camisa de lino ligera en tono fresco, ideal para climas cálidos y ocasiones casuales o semi-formales." },
+            { id: 3, title: "Camisa-3", category: "camisas", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/27S8T47M/camisa-4.jpg", desc: "Camisa de lino ligera en tono fresco, ideal para climas cálidos y ocasiones casuales o semi-formales." },
+            { id: 4, title: "Camisa-4", category: "camisas", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/k6Ws4rgn/camisa-3.jpg", desc: "Camisa de lino ligera en tono fresco, ideal para climas cálidos y ocasiones casuales o semi-formales." },
+            { id: 5, title: "Camisa-5", category: "camisas", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/PzmLzp81/camisa-5.jpg", desc: "Camisa de lino ligera en tono fresco, ideal para climas cálidos y ocasiones casuales o semi-formales." },
+            { id: 6, title: "Camisa-6", category: "camisas", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/zT4MYhRB/camisa-6.jpg", desc: "Camisa de lino ligera en tono fresco, ideal para climas cálidos y ocasiones casuales o semi-formales." },
+            { id: 7, title: "Camisa-7", category: "camisas", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/FLJ76WVJ/camisa-7.jpg", desc: "Camisa de lino ligera en tono fresco, ideal para climas cálidos y ocasiones casuales o semi-formales." },
+            { id: 8, title: "Camisa-8", category: "camisas", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/j9FM64JR/camisa-8.jpg", desc: "Camisa de lino ligera en tono fresco, ideal para climas cálidos y ocasiones casuales o semi-formales." },
+            { id: 9, title: "Camisa-9", category: "camisas", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/G4gdw7jk/camisa-9.jpg", desc: "Camisa de lino ligera en tono fresco, ideal para climas cálidos y ocasiones casuales o semi-formales." },
+            { id: 10, title: "Camisa-10", category: "camisas", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/TxHxYMrF/camisa-10.jpg", desc: "Camisa de lino ligera en tono fresco, ideal para climas cálidos y ocasiones casuales o semi-formales." },
+
+            { id: 11, title: "Gorra-1", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/zW9z6kJL/gorra-1.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+            { id: 12, title: "Gorra-2", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/jkf48r7Q/gorra-2.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+            { id: 13, title: "Gorra-3", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/5hwmHdx5/gorra-3.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+            { id: 14, title: "Gorra-4", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/1YRRDX8n/gorra-4.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+            { id: 15, title: "Gorra-5", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/gZWycDb8/gorra-5.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+            { id: 16, title: "Gorra-6", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/BVChk50N/gorra-6.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+            { id: 17, title: "Gorra-7", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/ns8ZQtkP/gorra-7.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+            { id: 18, title: "Gorra-8", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/5hy6V4n5/gorra-8.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+            { id: 19, title: "Gorra-9", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/Q7k8bwsr/gorra-9.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+            { id: 20, title: "Gorra-10", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/QhKDnbq/gorra-10.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+            { id: 21, title: "Gorra-11", category: "gorras", price: 1.00, tag: "Nuevo", img: "https://i.ibb.co/XxFbcCMw/gorra-11.jpg", desc: "Gorra ajustable con diseño elegante, visera curva y bordado frontal premium." },
+        ];
+        let cart = [];
+        let currentSelectedProduct = null;
+        let selectedSize = 'M';
+        let currentQty = 1;
+
+        // Menú móvil
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        function toggleMobileMenu() { mobileMenu.classList.add('hidden'); }
+
+        // Modal de Video Compacto
+        function openVideoModal(videoSrc, title) {
+            const modal = document.getElementById('video-modal');
+            const player = document.getElementById('modal-video-player');
+            const titleEl = document.getElementById('video-modal-title');
+            
+            // Elimina los anclajes # de la ruta antes de enviarla al reproductor
+            const cleanSrc = videoSrc.split('#')[0];
+            
+            player.src = cleanSrc;
+            titleEl.innerText = title;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            player.play();
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('video-modal');
+            const player = document.getElementById('modal-video-player');
+            
+            player.pause();
+            player.src = "";
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('video-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('video-modal')) {
+                closeVideoModal();
+            }
+        });
+
+        // Renderizado de Catálogo
+        function renderProducts(filter = 'todos') {
+            const container = document.getElementById('product-grid');
+            container.innerHTML = '';
+            const filtered = filter === 'todos' ? products : products.filter(p => p.category === filter);
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "group bg-darkgray-900 rounded-2xl overflow-hidden border border-darkgray-800 shadow-sm hover:border-gold-500/50 transition-all duration-300 flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="zoom-container relative aspect-[4/5] bg-darkgray-950 cursor-pointer" onclick="openModal(${p.id})">
+                            <span class="absolute top-3 left-3 z-10 bg-darkgray-950 text-gold-400 border border-gold-500/30 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow">
+                                ${p.tag}
+                            </span>
+                            <img src="${p.img}" alt="${p.title}" class="zoom-img w-full h-full object-cover">
+                            <button class="absolute bottom-3 right-3 bg-darkgray-950/90 hover:bg-gold-500 hover:text-darkgray-950 text-gold-400 p-3 rounded-full shadow-md transition-all transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 border border-gold-500/30">
+                                <i class="fa-regular fa-eye text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-gold-400 block mb-1">${p.category}</span>
+                            <h3 class="font-bold text-base text-white group-hover:text-gold-400 transition-colors line-clamp-1">${p.title}</h3>
+                            <p class="text-lg font-black text-gold-400 mt-2">$${p.price.toFixed(2)} USD</p>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5">
+                        <button onclick="openModal(${p.id})" class="w-full bg-darkgray-800 hover:bg-gold-500 hover:text-darkgray-950 text-slate-200 text-xs font-extrabold uppercase py-3 rounded-xl transition-all border border-darkgray-700">
+                            Ver Opciones
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = "cat-btn bg-gold-500 text-darkgray-950 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all shadow-sm";
+                } else {
+                    btn.className = "cat-btn bg-darkgray-900 border border-darkgray-700 text-slate-300 hover:bg-darkgray-800 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all";
+                }
+            });
+            renderProducts(cat);
+        }
+
+        // Modal de Producto
+        const modal = document.getElementById('product-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        function openModal(id) {
+            currentSelectedProduct = products.find(p => p.id === id);
+            if (!currentSelectedProduct) return;
+            selectedSize = 'M';
+            currentQty = 1;
+
+            document.getElementById('modal-img').src = currentSelectedProduct.img;
+            document.getElementById('modal-category').innerText = currentSelectedProduct.category;
+            document.getElementById('modal-title').innerText = currentSelectedProduct.title;
+            document.getElementById('modal-price').innerText = `$${currentSelectedProduct.price.toFixed(2)} USD`;
+            document.getElementById('modal-desc').innerText = currentSelectedProduct.desc;
+            document.getElementById('modal-qty').innerText = currentQty;
+            document.getElementById('selected-size-display').innerText = selectedSize;
+
+            updateWhatsAppLinks();
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        function selectSize(btn, size) {
+            document.querySelectorAll('.size-btn').forEach(b => {
+                b.className = "size-btn px-4 py-2 rounded-lg border border-darkgray-700 hover:border-gold-500 font-bold text-xs uppercase text-slate-300 transition-all";
+            });
+            btn.className = "size-btn active-size px-4 py-2 rounded-lg border-2 border-gold-500 bg-gold-500/10 font-bold text-xs uppercase text-gold-400 transition-all";
+            selectedSize = size;
+            document.getElementById('selected-size-display').innerText = selectedSize;
+            updateWhatsAppLinks();
+        }
+
+        function updateQty(change) {
+            currentQty += change;
+            if (currentQty < 1) currentQty = 1;
+            document.getElementById('modal-qty').innerText = currentQty;
+            updateWhatsAppLinks();
+        }
+
+        function updateWhatsAppLinks() {
+            if (!currentSelectedProduct) return;
+            const waText = encodeURIComponent(`Hola Inversiones EJ, estoy interesado en el producto "${currentSelectedProduct.title}" (Talla: ${selectedSize}, Cantidad: ${currentQty}) con envío a Venezuela.`);
+            document.getElementById('modal-wa-btn').href = `https://wa.me/584243699953?text=${waText}`;
+        }
+
+        // Zoom en imagen de producto
+        const zoomBox = document.getElementById('modal-zoom-box');
+        const modalImg = document.getElementById('modal-img');
+        zoomBox.addEventListener('mousemove', (e) => {
+            const rect = zoomBox.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / zoomBox.offsetWidth) * 100;
+            const y = ((e.clientY - rect.top) / zoomBox.offsetHeight) * 100;
+            modalImg.style.transformOrigin = `${x}% ${y}%`;
+            modalImg.style.transform = 'scale(1.8)';
+        });
+        zoomBox.addEventListener('mouseleave', () => {
+            modalImg.style.transformOrigin = 'center center';
+            modalImg.style.transform = 'scale(1)';
+        });
+
+        // Carrito
+        const cartToggleBtn = document.getElementById('cart-toggle-btn');
+        const cartDrawer = document.getElementById('cart-drawer');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const addToCartModalBtn = document.getElementById('add-to-cart-modal-btn');
+
+        cartToggleBtn.addEventListener('click', () => { cartDrawer.classList.remove('hidden'); document.body.style.overflow = 'hidden'; });
+        closeCartBtn.addEventListener('click', () => { cartDrawer.classList.add('hidden'); document.body.style.overflow = 'auto'; });
+        cartDrawer.addEventListener('click', (e) => { if (e.target === cartDrawer) { cartDrawer.classList.add('hidden'); document.body.style.overflow = 'auto'; } });
+
+        addToCartModalBtn.addEventListener('click', () => {
+            if (!currentSelectedProduct) return;
+            const existingItemIndex = cart.findIndex(item => item.id === currentSelectedProduct.id && item.size === selectedSize);
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].qty += currentQty;
+            } else {
+                cart.push({
+                    id: currentSelectedProduct.id,
+                    title: currentSelectedProduct.title,
+                    price: currentSelectedProduct.price,
+                    size: selectedSize,
+                    qty: currentQty,
+                    img: currentSelectedProduct.img
+                });
+            }
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            updateCartUI();
+            cartDrawer.classList.remove('hidden');
+        });
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const counter = document.getElementById('cart-counter');
+            const totalPriceEl = document.getElementById('cart-total-price');
+            const checkoutWaBtn = document.getElementById('checkout-wa-btn');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            counter.innerText = totalItems;
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-500 text-sm py-12">Tu carrito está vacío actualmente.</p>`;
+                totalPriceEl.innerText = `$0,00 USD`;
+                checkoutWaBtn.href = "#";
+                return;
+            }
+
+            container.innerHTML = '';
+            let total = 0;
+            let orderSummaryText = "Hola Inversiones EJ, quiero realizar el siguiente pedido con envío a Venezuela:\n\n";
+
+            cart.forEach((item, index) => {
+                const subtotal = item.price * item.qty;
+                total += subtotal;
+                orderSummaryText += `- ${item.qty}x ${item.title} (Talla: ${item.size}) - $${subtotal.toFixed(2)} USD\n`;
+
+                const itemEl = document.createElement('div');
+                itemEl.className = "flex items-center justify-between gap-4 p-3 bg-darkgray-950 rounded-xl border border-darkgray-800";
+                itemEl.innerHTML = `
+                    <img src="${item.img}" alt="${item.title}" class="w-16 h-16 object-cover rounded-lg shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-xs text-white truncate">${item.title}</h4>
+                        <p class="text-[11px] text-slate-400">Talla: <span class="font-bold text-gold-400">${item.size}</span> | Cant: ${item.qty}</p>
+                        <p class="text-xs font-black text-gold-400 mt-0.5">$${subtotal.toFixed(2)} USD</p>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="text-slate-500 hover:text-red-400 p-2 transition-colors">
+                        <i class="fa-solid fa-trash-can text-sm"></i>
+                    </button>
+                `;
+                container.appendChild(itemEl);
+            });
+
+            totalPriceEl.innerText = `$${total.toFixed(2)} USD`;
+            orderSummaryText += `\nTotal Estimado: $${total.toFixed(2)} USD`;
+            checkoutWaBtn.href = `https://wa.me/584243699953?text=${encodeURIComponent(orderSummaryText)}`;
+        }
+
+        renderProducts('todos');
+    </script>
+</body>
+</html>
